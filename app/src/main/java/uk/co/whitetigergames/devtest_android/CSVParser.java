@@ -7,16 +7,21 @@ import java.io.Reader;
 import java.util.ArrayList;
 import org.apache.commons.lang3.StringUtils;
 
+import uk.co.whitetigergames.devtest_android.interfaces.IRawComicDataSource;
+
 /**
  * Created by Simon on 09/08/2015.
  */
-public class CSVParser
+public class CSVParser implements IRawComicDataSource
 {
-    public int Count;
+    @Override
+    public int getCount() { return count; }
+
+    private int count;
     private ArrayList<String[]> parsedValues;
 
     public CSVParser(Reader input) throws IOException {
-        Count = 0;
+        count = 0;
         parsedValues = new ArrayList<>();
 
         BufferedReader bufferedReader = null;
@@ -30,7 +35,7 @@ public class CSVParser
 
             while ((sCurrentLine = bufferedReader.readLine()) != null)
             {
-                Count++;
+                count++;
                 String[] split = sCurrentLine.split("\",\"");
                 split[0] = StringUtils.strip(split[0], "\"");
                 split[split.length-1] = StringUtils.strip(split[split.length-1], "\"");
@@ -48,7 +53,8 @@ public class CSVParser
         }
     }
 
-    public String[] GetLine(int index)
+    @Override
+    public String[] getLine(int index)
     {
         return parsedValues.get(index);
     }

@@ -42,7 +42,7 @@ public class CSVParserTest
     public void ReadsCorrectNumber() throws Exception
     {
         CSVParser parser = new CSVParser(new FileReader(input));
-        assertEquals(11, parser.Count);
+        assertEquals(11, parser.getCount());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class CSVParserTest
         CSVParser parser = new CSVParser(new FileReader(input));
 
         String[] testArray = { "1001 spot illustrations of the lively twenties","La Vie Parisienne","008077927","GB8865678","0486250210","","","","","Grafton, Carol Belanger","","","England","New York ; London","Dover ; Constable","1986","123 pages, chiefly illustrations, 28 cm","741.5944","YV.1988.b.2439","Design--History--20th century--Themes, motives ; Art deco ; French caricatures--1920-1930","","Illustrations from La Vie Parisienne"};
-        assertArrayEquals(testArray, parser.GetLine(0));
+        assertArrayEquals(testArray, parser.getLine(0));
     }
 
     @Test
@@ -60,6 +60,6 @@ public class CSVParserTest
         CSVParser parser = new CSVParser(new FileReader(input));
 
         String[] testArray = { "How Obelix fell into the magic potion","","015103770","GBA933631","9781444000269 ; 1444000268","Goscinny","1926-1977","person","","Goscinny ; Uderzo","","","England","London","Orion Children's","2009","1 v, chiefly illustrations, 29 cm","741.5","","Astérix (Fictitious character)--Comic books, strips, etc--Juvenile fiction ; Obelix (Fictitious character : Uderzo)--Comic books, strips, etc--Juvenile fiction","",""};
-        assertArrayEquals(testArray, parser.GetLine(3));
+        assertArrayEquals(testArray, parser.getLine(3));
     }
 }
