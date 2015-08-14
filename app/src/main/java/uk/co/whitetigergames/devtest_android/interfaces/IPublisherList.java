@@ -7,5 +7,5 @@ public interface IPublisherList
 {
     void RecordInstance(String name);
 
-    long GetCount(String name);
+    int GetCount(String name);
 }

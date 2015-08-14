@@ -26,7 +26,7 @@ public class PublisherList implements IPublisherList
     }
 
     @Override
-    public long GetCount(String name)
+    public int GetCount(String name)
     {
         if(publishers.containsKey(name))
         {

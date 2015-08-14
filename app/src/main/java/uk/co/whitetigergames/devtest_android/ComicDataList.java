@@ -1,5 +1,7 @@
 package uk.co.whitetigergames.devtest_android;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.*;
 
 import uk.co.whitetigergames.devtest_android.interfaces.*;
@@ -12,12 +14,22 @@ public class ComicDataList implements IComicDataSourceListWithFavourites
     int MAX_FAVOURITES = 10;
 
     List<Integer> favourites = new ArrayList<>();
-    List<ComicData> data = new ArrayList<> ();
+    List<IComicDataSource> data = new ArrayList<> ();
     PublisherList publishers = new PublisherList();
 
     public ComicDataList(IRawComicDataSource source)
     {
+        for (int i = 0; i < source.getCount(); ++i)
+        {
+            IComicDataSource comicData = GenerateComicData(i, source.getLine(i));
+            data.add(comicData);
+            publishers.RecordInstance(comicData.getPublisher());
+        }
+    }
 
+    private IComicDataSource GenerateComicData(int ID, String[] dataSource)
+    {
+        return new ComicData(ID, dataSource[0], dataSource[1], dataSource[19], dataSource[14], dataSource[15]);
     }
 
     @Override
@@ -25,42 +37,47 @@ public class ComicDataList implements IComicDataSourceListWithFavourites
     {
         if (favourites.contains(ID))
         {
-            favourites.remove(new Integer(ID));
+            favourites.remove(Integer.valueOf(ID));
         }
         else if (favourites.size() < MAX_FAVOURITES)
         {
             favourites.add(ID);
-//            favourites.Sort();
+            Collections.sort(favourites);
         }
     }
 
     @Override
-    public boolean IsFavourite(int ID)
+    public boolean IsFavourite(int position)
     {
-        return false;
+        return favourites.contains(getData(position).getID());
     }
 
     @Override
     public int GetPublisherCount(String publisher)
     {
-        return 0;
+        return publishers.GetCount(publisher);
     }
 
     @Override
     public int[] getFavourites()
     {
-        return new int[0];
+        return ArrayUtils.toPrimitive(favourites.toArray(new Integer[favourites.size()]));
     }
 
     @Override
     public int getCount()
     {
-        return 0;
+        return data.size() + favourites.size();
     }
 
     @Override
     public IComicDataSource getData(int position)
     {
-        return null;
+        if (position < favourites.size())
+        {
+            return data.get(favourites.get(position));
+        }
+
+        return data.get(position - favourites.size());
     }
 }

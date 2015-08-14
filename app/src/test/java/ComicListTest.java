@@ -152,7 +152,7 @@ public class ComicListTest
     @Test
     public void IsFavourite()
     {
-        comicList.ToggleFavourite (3);
+        comicList.ToggleFavourite(3);
 
         assertTrue("Favourite check in top position", comicList.IsFavourite(0));
         assertTrue("Favourite check in regular position", comicList.IsFavourite(4));
