@@ -1,5 +1,4 @@
 package uk.co.whitetigergames.devtest_android;
-
 import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSource;
 
 /**
@@ -7,44 +6,48 @@ import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSource;
  */
 public class ComicData implements IComicDataSource
 {
+    public ComicData()
+    {
+    }
+
     public ComicData(int id, String name, String subtitle, String desc, String publisher, String date)
     {
-        ID = id;
-        Name = name;
-        Subtitle = subtitle;
-        Description = desc;
-        Publisher = publisher;
-        Date = date;
+        this.id = id;
+        this.name = name;
+        this.subtitle = subtitle;
+        this.description = desc;
+        this.publisher = publisher;
+        this.date = date;
     }
 
     public int getID() {
-        return ID;
+        return id;
     }
-    private int ID;
+    private int id;
 
     public String getName() {
-        return Name;
+        return name;
     }
-    private String Name;
+    private String name;
 
     public String getSubtitle() {
-        return Subtitle;
+        return subtitle;
     }
-    private String Subtitle;
+    private String subtitle;
 
     public String getDescription() {
-        return Description;
+        return description;
     }
-    private String Description;
+    private String description;
 
     public String getPublisher() {
-        return Publisher;
+        return publisher;
     }
-    private String Publisher;
+    private String publisher;
 
     public String getDate() {
-        return Date;
+        return date;
     }
-    private String Date;
+    private String date;
 
 }

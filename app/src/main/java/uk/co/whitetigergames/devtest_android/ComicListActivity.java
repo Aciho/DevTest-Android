@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -71,24 +73,42 @@ public class ComicListActivity extends FragmentActivity
      * indicating that the item with the given ID was selected.
      */
     @Override
-    public void onItemSelected(String position) {
-        if (mTwoPane) {
+    public void onItemSelected(String position)
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        String json = "";
+
+        try
+        {
+            // display to console
+            json = mapper.writeValueAsString(getComicData(Integer.parseInt(position)));
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        if (mTwoPane)
+        {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ComicDetailFragment.ARG_ITEM_DESCRIPTION, getComicData(Integer.parseInt(position)).getDescription());
+            arguments.putString(ComicDetailFragment.ARG_ITEM_JSON, json);
+
             ComicDetailFragment fragment = new ComicDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.comic_detail_container, fragment)
                     .commit();
-
-        } else {
+        }
+        else
+        {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ComicDetailActivity.class);
-            detailIntent.putExtra(ComicDetailFragment.ARG_ITEM_DESCRIPTION, getComicData(Integer.parseInt(position)).getDescription());
+            detailIntent.putExtra(ComicDetailFragment.ARG_ITEM_JSON, json);
             startActivity(detailIntent);
         }
     }

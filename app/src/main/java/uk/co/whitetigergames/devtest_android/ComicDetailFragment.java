@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 /**
@@ -23,14 +24,12 @@ public class ComicDetailFragment extends Fragment
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
-    public static final String ARG_ITEM_DESCRIPTION = "item_descrription";
+    public static final String ARG_ITEM_JSON = "item_json";
 
     /**
      * The dummy content this fragment is presenting.
      */
     private ComicData mItem;
-    private String mDesc;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -45,19 +44,18 @@ public class ComicDetailFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
 
-        try
+        ObjectMapper mapper = new ObjectMapper();
+        if (getArguments().containsKey(ARG_ITEM_JSON))
         {
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String json = ow.writeValueAsString(getArguments());
-            Log.d("ComicListActivity", json);
-        } catch (JsonProcessingException e)
-        {
-            e.printStackTrace();
-        }
-
-        if (getArguments().containsKey(ARG_ITEM_DESCRIPTION))
-        {
-            mDesc = getArguments().getString(ARG_ITEM_DESCRIPTION);
+            try
+            {
+                String json = getArguments().getString(ARG_ITEM_JSON);
+                mItem = mapper.readValue(json, ComicData.class);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -67,12 +65,15 @@ public class ComicDetailFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.fragment_comic_detail, container, false);
 
-        Log.d("ComicDetailFragment", "Description: " + mDesc);
-
         // Show the dummy content as text in a TextView.
-        if (mDesc != null)
+        if (mItem != null)
         {
-            ((TextView) rootView.findViewById(R.id.description_text)).setText(mDesc);
+            ((TextView) rootView.findViewById(R.id.title_text)).setText(mItem.getName());
+            ((TextView) rootView.findViewById(R.id.subtitle_text)).setText(mItem.getSubtitle());
+            ((TextView) rootView.findViewById(R.id.description_text)).setText(mItem.getDescription());
+            ((TextView) rootView.findViewById(R.id.publisher_text)).setText(mItem.getPublisher());
+            ((TextView) rootView.findViewById(R.id.year_text)).setText(mItem.getDate());
+            ((TextView) rootView.findViewById(R.id.num_others_text)).setText("X other items by this publisher");
         }
 
         return rootView;
