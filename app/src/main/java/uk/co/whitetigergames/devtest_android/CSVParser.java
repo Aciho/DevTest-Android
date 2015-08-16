@@ -1,7 +1,6 @@
 package uk.co.whitetigergames.devtest_android;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -37,9 +36,12 @@ public class CSVParser implements IRawComicDataSource
             {
                 count++;
                 String[] split = sCurrentLine.split("\",\"");
-                split[0] = StringUtils.strip(split[0], "\"");
-                split[split.length-1] = StringUtils.strip(split[split.length-1], "\"");
-                parsedValues.add(split);
+                if (split.length > 1)
+                {
+                    split[0] = StringUtils.strip(split[0], "\"");
+                    split[split.length - 1] = StringUtils.strip(split[split.length - 1], "\"");
+                    parsedValues.add(split);
+                }
             }
         }
         catch (Exception ex)

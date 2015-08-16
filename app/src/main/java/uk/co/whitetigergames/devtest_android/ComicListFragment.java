@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import uk.co.whitetigergames.devtest_android.dummy.DummyContent;
 
 /**
  * A list fragment representing a list of Comics. This fragment
@@ -37,6 +34,9 @@ public class ComicListFragment extends ListFragment {
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
 
+
+    private ComicListActivity myActivity;
+
     /**
      * A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activities to be notified of item
@@ -46,7 +46,7 @@ public class ComicListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(String id);
+        void onItemSelected(String id);
     }
 
     /**
@@ -63,23 +63,21 @@ public class ComicListFragment extends ListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ComicListFragment() {
-    }
+    public ComicListFragment() {}
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+        myActivity = (ComicListActivity)getActivity();
+
+        setListAdapter(new ComicListAdapter(myActivity, myActivity.getComicData()));
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
         super.onViewCreated(view, savedInstanceState);
 
         // Restore the previously serialized activated item position.
@@ -90,11 +88,13 @@ public class ComicListFragment extends ListFragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Activity activity)
+    {
         super.onAttach(activity);
 
         // Activities containing this fragment must implement its callbacks.
-        if (!(activity instanceof Callbacks)) {
+        if (!(activity instanceof Callbacks))
+        {
             throw new IllegalStateException("Activity must implement fragment's callbacks.");
         }
 
@@ -102,7 +102,8 @@ public class ComicListFragment extends ListFragment {
     }
 
     @Override
-    public void onDetach() {
+    public void onDetach()
+    {
         super.onDetach();
 
         // Reset the active callbacks interface to the dummy implementation.
@@ -110,18 +111,21 @@ public class ComicListFragment extends ListFragment {
     }
 
     @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
+    public void onListItemClick(ListView listView, View view, int position, long id)
+    {
         super.onListItemClick(listView, view, position, id);
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(Integer.toString(position));
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState)
+    {
         super.onSaveInstanceState(outState);
-        if (mActivatedPosition != ListView.INVALID_POSITION) {
+        if (mActivatedPosition != ListView.INVALID_POSITION)
+        {
             // Serialize and persist the activated item position.
             outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
         }
@@ -131,7 +135,8 @@ public class ComicListFragment extends ListFragment {
      * Turns on activate-on-click mode. When this mode is on, list items will be
      * given the 'activated' state when touched.
      */
-    public void setActivateOnItemClick(boolean activateOnItemClick) {
+    public void setActivateOnItemClick(boolean activateOnItemClick)
+    {
         // When setting CHOICE_MODE_SINGLE, ListView will automatically
         // give items the 'activated' state when touched.
         getListView().setChoiceMode(activateOnItemClick
@@ -139,10 +144,13 @@ public class ComicListFragment extends ListFragment {
                 : ListView.CHOICE_MODE_NONE);
     }
 
-    private void setActivatedPosition(int position) {
-        if (position == ListView.INVALID_POSITION) {
+    private void setActivatedPosition(int position)
+    {
+        if (position == ListView.INVALID_POSITION)
+        {
             getListView().setItemChecked(mActivatedPosition, false);
-        } else {
+        } else
+        {
             getListView().setItemChecked(position, true);
         }
 

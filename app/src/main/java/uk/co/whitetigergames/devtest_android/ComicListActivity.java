@@ -4,6 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
+import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSourceListWithFavourites;
+import uk.co.whitetigergames.devtest_android.interfaces.IRawComicDataSource;
+
 
 /**
  * An activity representing a list of Comics. This activity
@@ -34,6 +42,7 @@ public class ComicListActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comic_list);
+        cachedData = null;
 
         if (findViewById(R.id.comic_detail_container) != null) {
             // The detail container view will be present only in the
@@ -57,13 +66,13 @@ public class ComicListActivity extends FragmentActivity
      * indicating that the item with the given ID was selected.
      */
     @Override
-    public void onItemSelected(String id) {
+    public void onItemSelected(String position) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ComicDetailFragment.ARG_ITEM_ID, id);
+            arguments.putString(ComicDetailFragment.ARG_ITEM_DESCRIPTION, getComicData().getData(Integer.parseInt(position)).getDescription());
             ComicDetailFragment fragment = new ComicDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -74,8 +83,29 @@ public class ComicListActivity extends FragmentActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ComicDetailActivity.class);
-            detailIntent.putExtra(ComicDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra(ComicDetailFragment.ARG_ITEM_DESCRIPTION, getComicData().getData(Integer.parseInt(position)).getDescription());
             startActivity(detailIntent);
         }
+    }
+
+    IComicDataSourceListWithFavourites cachedData = null;
+
+    public IComicDataSourceListWithFavourites getComicData()
+    {
+        if (cachedData == null)
+        {
+            InputStream inputStream = getResources().openRawResource(R.raw.titles);
+            Reader reader = new InputStreamReader(inputStream);
+            IRawComicDataSource dataSource = null;
+            try
+            {
+                dataSource = new CSVParser(reader);
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            cachedData = new ComicDataList(dataSource);
+        }
+        return cachedData;
     }
 }
