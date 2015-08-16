@@ -3,12 +3,14 @@ package uk.co.whitetigergames.devtest_android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSource;
 import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSourceListWithFavourites;
 import uk.co.whitetigergames.devtest_android.interfaces.IRawComicDataSource;
 
@@ -38,11 +40,14 @@ public class ComicListActivity extends FragmentActivity
      */
     private boolean mTwoPane;
 
+
+    private IComicDataSourceListWithFavourites cachedData = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comic_list);
-        cachedData = null;
 
         if (findViewById(R.id.comic_detail_container) != null) {
             // The detail container view will be present only in the
@@ -72,7 +77,7 @@ public class ComicListActivity extends FragmentActivity
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ComicDetailFragment.ARG_ITEM_DESCRIPTION, getComicData().getData(Integer.parseInt(position)).getDescription());
+            arguments.putString(ComicDetailFragment.ARG_ITEM_DESCRIPTION, getComicData(Integer.parseInt(position)).getDescription());
             ComicDetailFragment fragment = new ComicDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -83,12 +88,16 @@ public class ComicListActivity extends FragmentActivity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ComicDetailActivity.class);
-            detailIntent.putExtra(ComicDetailFragment.ARG_ITEM_DESCRIPTION, getComicData().getData(Integer.parseInt(position)).getDescription());
+            detailIntent.putExtra(ComicDetailFragment.ARG_ITEM_DESCRIPTION, getComicData(Integer.parseInt(position)).getDescription());
             startActivity(detailIntent);
         }
     }
 
-    IComicDataSourceListWithFavourites cachedData = null;
+
+    public IComicDataSource getComicData(int position)
+    {
+        return getComicData().getData(position);
+    }
 
     public IComicDataSourceListWithFavourites getComicData()
     {

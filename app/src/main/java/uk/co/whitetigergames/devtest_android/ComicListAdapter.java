@@ -47,8 +47,11 @@ public class ComicListAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        View rootView = LayoutInflater.from(context)
-                .inflate(R.layout.comic_list_item, parent, false);
+        View rootView = convertView;
+        if(rootView == null)
+        {
+            rootView = LayoutInflater.from(context).inflate(R.layout.comic_list_item, parent, false);
+        }
 
         TextView titleText = (TextView) rootView.findViewById(R.id.comic_name);
         titleText.setText(getItem(position).getName());
