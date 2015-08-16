@@ -21,15 +21,26 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 public class ComicDetailFragment extends Fragment
 {
     /**
-     * The fragment argument representing the item ID that this fragment
+     * The fragment argument representing the ComicData that this fragment
      * represents.
      */
     public static final String ARG_ITEM_JSON = "item_json";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The fragment argument representing the number of other items
+     * by this publisher.
+     */
+    public static final String ARG_PUBLISHER_OTHER_ITEMS = "publisher_other_items";
+
+    /**
+     * The content this fragment is presenting.
      */
     private ComicData mItem;
+
+    /**
+     * The number of other items.
+     */
+    private int mOtherItems;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -57,6 +68,12 @@ public class ComicDetailFragment extends Fragment
                 e.printStackTrace();
             }
         }
+
+        if (getArguments().containsKey(ARG_PUBLISHER_OTHER_ITEMS))
+        {
+            mOtherItems = getArguments().getInt(ARG_PUBLISHER_OTHER_ITEMS);
+        }
+
     }
 
     @Override
@@ -73,7 +90,7 @@ public class ComicDetailFragment extends Fragment
             ((TextView) rootView.findViewById(R.id.description_text)).setText(mItem.getDescription());
             ((TextView) rootView.findViewById(R.id.publisher_text)).setText(mItem.getPublisher());
             ((TextView) rootView.findViewById(R.id.year_text)).setText(mItem.getDate());
-            ((TextView) rootView.findViewById(R.id.num_others_text)).setText("X other items by this publisher");
+            ((TextView) rootView.findViewById(R.id.num_others_text)).setText(mOtherItems + " other items by this publisher");
         }
 
         return rootView;

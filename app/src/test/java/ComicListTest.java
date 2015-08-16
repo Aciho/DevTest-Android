@@ -162,9 +162,9 @@ public class ComicListTest
     @Test
     public void PublisherCount()
     {
-        assertEquals(0, comicList.GetPublisherCount("Not a publisher"));
-        assertEquals(1, comicList.GetPublisherCount("Orion Children's"));
-        assertEquals(2, comicList.GetPublisherCount("Titan"));
+        assertEquals(0, comicList.getPublisherCount("Not a publisher"));
+        assertEquals(1, comicList.getPublisherCount("Orion Children's"));
+        assertEquals(2, comicList.getPublisherCount("Titan"));
     }
 
     @Test

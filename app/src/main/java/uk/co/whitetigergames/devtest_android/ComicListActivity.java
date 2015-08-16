@@ -3,7 +3,6 @@ package uk.co.whitetigergames.devtest_android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -77,11 +76,12 @@ public class ComicListActivity extends FragmentActivity
     {
         ObjectMapper mapper = new ObjectMapper();
         String json = "";
+        IComicDataSource data = getComicData(Integer.parseInt(position));
 
         try
         {
             // display to console
-            json = mapper.writeValueAsString(getComicData(Integer.parseInt(position)));
+            json = mapper.writeValueAsString(data);
 
         }
         catch (Exception e)
@@ -96,6 +96,7 @@ public class ComicListActivity extends FragmentActivity
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(ComicDetailFragment.ARG_ITEM_JSON, json);
+            arguments.putInt(ComicDetailFragment.ARG_PUBLISHER_OTHER_ITEMS, getComicData().getPublisherCount(data.getPublisher()) - 1);
 
             ComicDetailFragment fragment = new ComicDetailFragment();
             fragment.setArguments(arguments);
@@ -109,6 +110,7 @@ public class ComicListActivity extends FragmentActivity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ComicDetailActivity.class);
             detailIntent.putExtra(ComicDetailFragment.ARG_ITEM_JSON, json);
+            detailIntent.putExtra(ComicDetailFragment.ARG_PUBLISHER_OTHER_ITEMS, getComicData().getPublisherCount(data.getPublisher()) - 1);
             startActivity(detailIntent);
         }
     }

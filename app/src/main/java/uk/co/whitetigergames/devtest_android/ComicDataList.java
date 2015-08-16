@@ -53,7 +53,7 @@ public class ComicDataList implements IComicDataSourceListWithFavourites
     }
 
     @Override
-    public int GetPublisherCount(String publisher)
+    public int getPublisherCount(String publisher)
     {
         return publishers.GetCount(publisher);
     }

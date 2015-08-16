@@ -40,6 +40,8 @@ public class ComicDetailActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putString(ComicDetailFragment.ARG_ITEM_JSON,
                     getIntent().getStringExtra(ComicDetailFragment.ARG_ITEM_JSON));
+            arguments.putInt(ComicDetailFragment.ARG_PUBLISHER_OTHER_ITEMS,
+                    getIntent().getIntExtra(ComicDetailFragment.ARG_PUBLISHER_OTHER_ITEMS, 0));
             ComicDetailFragment fragment = new ComicDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

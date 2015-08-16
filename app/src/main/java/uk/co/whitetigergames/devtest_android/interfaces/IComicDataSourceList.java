@@ -4,6 +4,6 @@ public interface IComicDataSourceList
 {
     int getCount();
     IComicDataSource getData(int position);
-    int GetPublisherCount(String publisher);
+    int getPublisherCount(String publisher);
 
 }
