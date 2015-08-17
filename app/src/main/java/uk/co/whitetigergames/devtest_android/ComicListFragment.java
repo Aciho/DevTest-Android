@@ -3,6 +3,7 @@ package uk.co.whitetigergames.devtest_android;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -115,6 +116,7 @@ public class ComicListFragment extends ListFragment {
     {
         super.onListItemClick(listView, view, position, id);
 
+        Log.d("List Item Click", ""+position);
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
         mCallbacks.onItemSelected(Integer.toString(position));

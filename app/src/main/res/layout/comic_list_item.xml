@@ -1,29 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TwoLineListItem xmlns:android="http://schemas.android.com/apk/res/android"
+<uk.co.whitetigergames.devtest_android.CheckableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                  android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:minHeight="?android:attr/listPreferredItemHeight"
-                 android:mode="twoLine"
-    >
+                 android:layout_height="55dp"
+                                                       android:clickable="false">
 
-<TextView android:id="@+id/comic_name"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="?android:attr/listPreferredItemPaddingLeft"
-          android:layout_marginTop="8dip"
-          android:textAppearance="?android:attr/textAppearanceListItem"
-          android:text="Title"
-          android:singleLine="false"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="6"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
+        android:id="@+id/comic_name_layout">
 
-<TextView android:id="@+id/comic_subtitle"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:textAppearance="?android:attr/textAppearanceSmall"
-          android:text="subtitle"
-          android:singleLine="false"
-          android:layout_below="@+id/comic_name"
-          android:layout_alignParentLeft="true"
-          android:layout_alignParentStart="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/comic_name"
+            android:singleLine="true"/>
 
-</TwoLineListItem>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/comic_subtitle"
+            android:singleLine="true"
+            android:layout_below="@+id/comic_name"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+    </LinearLayout>
+
+    <CheckBox
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:id="@+id/comic_checkbox"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentLeft="true"/>
+
+</uk.co.whitetigergames.devtest_android.CheckableLayout>

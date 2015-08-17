@@ -3,6 +3,7 @@ package uk.co.whitetigergames.devtest_android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -74,6 +75,7 @@ public class ComicListActivity extends FragmentActivity
     @Override
     public void onItemSelected(String position)
     {
+        Log.d("Item Selected", position);
         ObjectMapper mapper = new ObjectMapper();
         String json = "";
         IComicDataSource data = getComicData(Integer.parseInt(position));
