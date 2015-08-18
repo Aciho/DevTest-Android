@@ -16,7 +16,6 @@ import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSource;
 import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSourceListWithFavourites;
 import uk.co.whitetigergames.devtest_android.interfaces.IRawComicDataSource;
 
-
 /**
  * An activity representing a list of Comics. This activity
  * has different presentations for handset and tablet-size devices. On
@@ -42,9 +41,7 @@ public class ComicListActivity extends FragmentActivity
      */
     private boolean mTwoPane;
 
-
     private IComicDataSourceListWithFavourites cachedData = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +113,6 @@ public class ComicListActivity extends FragmentActivity
             startActivity(detailIntent);
         }
     }
-
 
     public IComicDataSource getComicData(int position)
     {

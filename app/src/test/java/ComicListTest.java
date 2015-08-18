@@ -97,7 +97,7 @@ public class ComicListTest
     @Test
     public void AddFavourites()
     {
-        comicList.ToggleFavourite(2);
+        comicList.toggleFavourite(2);
 
         assertEquals("Favourites go to the top", "Emerald warriors", comicList.getData(0).getName());
         assertEquals("Everything else bumped down", "1001 spot illustrations of the lively twenties", comicList.getData(1).getName());
@@ -112,8 +112,8 @@ public class ComicListTest
     @Test
     public void OrderFavourites()
     {
-        comicList.ToggleFavourite (3);
-        comicList.ToggleFavourite(2);
+        comicList.toggleFavourite(3);
+        comicList.toggleFavourite(2);
 
         assertEquals("Favourites go to the top in their original order, not selection order", "Emerald warriors", comicList.getData(0).getName());
     }
@@ -121,8 +121,8 @@ public class ComicListTest
     @Test
     public void RemoveFavourites()
     {
-        comicList.ToggleFavourite (2);
-        comicList.ToggleFavourite(2);
+        comicList.toggleFavourite(2);
+        comicList.toggleFavourite(2);
 
         assertEquals("Toggling twice removes favourites", "1001 spot illustrations of the lively twenties", comicList.getData(0).getName());
         assertEquals(11, comicList.getCount());
@@ -131,20 +131,20 @@ public class ComicListTest
     @Test
     public void LimitFavourites()
     {
-        comicList.ToggleFavourite (0);
-        comicList.ToggleFavourite (1);
-        comicList.ToggleFavourite (2);
-        comicList.ToggleFavourite (3);
-        comicList.ToggleFavourite (4);
-        comicList.ToggleFavourite (5);
-        comicList.ToggleFavourite (6);
-        comicList.ToggleFavourite (7);
-        comicList.ToggleFavourite(8);
-        comicList.ToggleFavourite(9);
+        comicList.toggleFavourite(0);
+        comicList.toggleFavourite(1);
+        comicList.toggleFavourite(2);
+        comicList.toggleFavourite(3);
+        comicList.toggleFavourite(4);
+        comicList.toggleFavourite(5);
+        comicList.toggleFavourite(6);
+        comicList.toggleFavourite(7);
+        comicList.toggleFavourite(8);
+        comicList.toggleFavourite(9);
 
         assertEquals("Can add 10 favourites", 21, comicList.getCount());
 
-        comicList.ToggleFavourite(10);
+        comicList.toggleFavourite(10);
 
         assertEquals("Cannot add more than 10 favourites", 21, comicList.getCount());
     }
@@ -152,11 +152,11 @@ public class ComicListTest
     @Test
     public void IsFavourite()
     {
-        comicList.ToggleFavourite(3);
+        comicList.toggleFavourite(3);
 
-        assertTrue("Favourite check in top position", comicList.IsFavourite(0));
-        assertTrue("Favourite check in regular position", comicList.IsFavourite(4));
-        assertFalse("Non favourite check", comicList.IsFavourite(2));
+        assertTrue("Favourite check in top position", comicList.isFavourite(0));
+        assertTrue("Favourite check in regular position", comicList.isFavourite(4));
+        assertFalse("Non favourite check", comicList.isFavourite(2));
     }
 
     @Test

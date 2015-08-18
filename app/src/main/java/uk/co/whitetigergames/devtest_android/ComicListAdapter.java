@@ -1,19 +1,13 @@
 package uk.co.whitetigergames.devtest_android;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.view.LayoutInflater;
-import android.widget.Checkable;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSource;
 import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSourceListWithFavourites;
@@ -67,18 +61,29 @@ public class ComicListAdapter extends BaseAdapter
             @Override
             public void onClick(View v)
             {
-                ((ComicListActivity)v.getContext()).onItemSelected(String.valueOf(position));
+                ((ComicListActivity) v.getContext()).onItemSelected(String.valueOf(position));
             }
         });
 
+        final IComicDataSource data = getItem(position);
+
         TextView titleText = (TextView) rootView.findViewById(R.id.comic_name);
-        titleText.setText(getItem(position).getName());
+        titleText.setText(data.getName());
 
         TextView subText = (TextView) rootView.findViewById(R.id.comic_subtitle);
-        subText.setText(getItem(position).getSubtitle());
+        subText.setText(data.getSubtitle());
 
-        Checkable checkBox = (Checkable)rootView.findViewById(R.id.comic_checkbox);
-        checkBox.setChecked(false);
+        CheckBox checkBox = (CheckBox)rootView.findViewById(R.id.comic_checkbox);
+
+        checkBox.setChecked(dataSource.isFavourite(position));
+        checkBox.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                dataSource.toggleFavourite(data.getID());
+            }
+        });
 
         return rootView;
     }

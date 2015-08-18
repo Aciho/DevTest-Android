@@ -33,7 +33,7 @@ public class ComicDataList implements IComicDataSourceListWithFavourites
     }
 
     @Override
-    public void ToggleFavourite(int ID)
+    public void toggleFavourite(int ID)
     {
         if (favourites.contains(ID))
         {
@@ -47,7 +47,7 @@ public class ComicDataList implements IComicDataSourceListWithFavourites
     }
 
     @Override
-    public boolean IsFavourite(int position)
+    public boolean isFavourite(int position)
     {
         return favourites.contains(getData(position).getID());
     }
