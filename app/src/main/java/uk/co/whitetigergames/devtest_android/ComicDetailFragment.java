@@ -82,7 +82,7 @@ public class ComicDetailFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.fragment_comic_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        // Show the content as text in a TextView.
         if (mItem != null)
         {
             ((TextView) rootView.findViewById(R.id.title_text)).setText(mItem.getName());
@@ -90,7 +90,7 @@ public class ComicDetailFragment extends Fragment
             ((TextView) rootView.findViewById(R.id.description_text)).setText(mItem.getDescription());
             ((TextView) rootView.findViewById(R.id.publisher_text)).setText(mItem.getPublisher());
             ((TextView) rootView.findViewById(R.id.year_text)).setText(mItem.getDate());
-            ((TextView) rootView.findViewById(R.id.num_others_text)).setText(mOtherItems + " other items by this publisher");
+            ((TextView) rootView.findViewById(R.id.num_others_text)).setText(mOtherItems + R.string.others_by_this_publisher);
         }
 
         return rootView;

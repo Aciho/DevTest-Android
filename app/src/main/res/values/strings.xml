@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">DevTest-Android</string>
     <string name="title_comic_detail">Comic Detail</string>
+    <string name="others_by_this_publisher"> other items by this publisher</string>
 </resources>

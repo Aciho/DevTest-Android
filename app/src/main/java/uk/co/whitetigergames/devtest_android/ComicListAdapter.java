@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.view.LayoutInflater;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -54,14 +55,13 @@ public class ComicListAdapter extends BaseAdapter
             rootView = LayoutInflater.from(context).inflate(R.layout.comic_list_item, parent, false);
         }
 
-        LinearLayout menu_photos = (LinearLayout )rootView.findViewById(R.id.comic_name_layout);
-
-        menu_photos.setOnClickListener(new View.OnClickListener()
+        View comic_item = rootView.findViewById(R.id.comic_name_layout);
+        comic_item.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                ((ComicListActivity) v.getContext()).onItemSelected(String.valueOf(position));
+                ((ComicListFragment.ComicListCallbacks) v.getContext()).onItemSelected(String.valueOf(position));
             }
         });
 
@@ -73,7 +73,7 @@ public class ComicListAdapter extends BaseAdapter
         TextView subText = (TextView) rootView.findViewById(R.id.comic_subtitle);
         subText.setText(data.getSubtitle());
 
-        CheckBox checkBox = (CheckBox)rootView.findViewById(R.id.comic_checkbox);
+        CompoundButton checkBox = (CompoundButton)rootView.findViewById(R.id.comic_checkbox);
 
         checkBox.setChecked(dataSource.isFavourite(position));
         checkBox.setOnClickListener(new View.OnClickListener()

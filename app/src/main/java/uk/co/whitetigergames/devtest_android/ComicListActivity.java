@@ -29,11 +29,11 @@ import uk.co.whitetigergames.devtest_android.interfaces.IRawComicDataSource;
  * (if present) is a {@link ComicDetailFragment}.
  * <p/>
  * This activity also implements the required
- * {@link ComicListFragment.Callbacks} interface
+ * {@link ComicListFragment.ComicListCallbacks} interface
  * to listen for item selections.
  */
 public class ComicListActivity extends FragmentActivity
-        implements ComicListFragment.Callbacks {
+        implements ComicListFragment.ComicListCallbacks {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -66,7 +66,7 @@ public class ComicListActivity extends FragmentActivity
     }
 
     /**
-     * Callback method from {@link ComicListFragment.Callbacks}
+     * Callback method from {@link ComicListFragment.ComicListCallbacks}
      * indicating that the item with the given ID was selected.
      */
     @Override
@@ -106,7 +106,7 @@ public class ComicListActivity extends FragmentActivity
         else
         {
             // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
+            // for the selected item.
             Intent detailIntent = new Intent(this, ComicDetailActivity.class);
             detailIntent.putExtra(ComicDetailFragment.ARG_ITEM_JSON, json);
             detailIntent.putExtra(ComicDetailFragment.ARG_PUBLISHER_OTHER_ITEMS, getComicData().getPublisherCount(data.getPublisher()) - 1);

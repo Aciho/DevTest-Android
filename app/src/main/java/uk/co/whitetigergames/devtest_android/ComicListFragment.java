@@ -13,7 +13,7 @@ import android.widget.ListView;
  * 'activated' state upon selection. This helps indicate which item is
  * currently being viewed in a {@link ComicDetailFragment}.
  * <p/>
- * Activities containing this fragment MUST implement the {@link Callbacks}
+ * Activities containing this fragment MUST implement the {@link ComicListCallbacks}
  * interface.
  */
 public class ComicListFragment extends ListFragment {
@@ -28,7 +28,7 @@ public class ComicListFragment extends ListFragment {
      * The fragment's current callback object, which is notified of list item
      * clicks.
      */
-    private Callbacks mCallbacks = sDummyCallbacks;
+    private ComicListCallbacks mCallbacks = sDummyCallbacks;
 
     /**
      * The current activated item position. Only used on tablets.
@@ -43,7 +43,7 @@ public class ComicListFragment extends ListFragment {
      * implement. This mechanism allows activities to be notified of item
      * selections.
      */
-    public interface Callbacks {
+    public interface ComicListCallbacks {
         /**
          * Callback for when an item has been selected.
          */
@@ -51,10 +51,10 @@ public class ComicListFragment extends ListFragment {
     }
 
     /**
-     * A dummy implementation of the {@link Callbacks} interface that does
+     * A dummy implementation of the {@link ComicListCallbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
      */
-    private static Callbacks sDummyCallbacks = new Callbacks() {
+    private static ComicListCallbacks sDummyCallbacks = new ComicListCallbacks() {
         @Override
         public void onItemSelected(String id) {
         }
@@ -94,12 +94,12 @@ public class ComicListFragment extends ListFragment {
         super.onAttach(activity);
 
         // Activities containing this fragment must implement its callbacks.
-        if (!(activity instanceof Callbacks))
+        if (!(activity instanceof ComicListCallbacks))
         {
             throw new IllegalStateException("Activity must implement fragment's callbacks.");
         }
 
-        mCallbacks = (Callbacks) activity;
+        mCallbacks = (ComicListCallbacks) activity;
     }
 
     @Override
