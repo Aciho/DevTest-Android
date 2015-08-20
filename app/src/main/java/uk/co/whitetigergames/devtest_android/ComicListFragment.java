@@ -83,6 +83,7 @@ public class ComicListFragment extends ListFragment {
     {
         super.onCreate(savedInstanceState);
 
+
         myActivity = (ComicListActivity)getActivity();
 
         setListAdapter(new ComicListAdapter(myActivity, myActivity));
@@ -92,6 +93,7 @@ public class ComicListFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
+        getListView().setFastScrollEnabled(true);
 
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null
