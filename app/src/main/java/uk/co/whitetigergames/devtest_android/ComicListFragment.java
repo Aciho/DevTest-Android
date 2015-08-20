@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSourceListWithFavourites;
+
 /**
  * A list fragment representing a list of Comics. This fragment
  * also supports tablet devices by allowing list items to be given an
@@ -48,6 +50,10 @@ public class ComicListFragment extends ListFragment {
          * Callback for when an item has been selected.
          */
         void onItemSelected(String id);
+        /**
+         * Callback to return data from the fragment.
+         */
+        IComicDataSourceListWithFavourites getComicData();
     }
 
     /**
@@ -57,6 +63,12 @@ public class ComicListFragment extends ListFragment {
     private static ComicListCallbacks sDummyCallbacks = new ComicListCallbacks() {
         @Override
         public void onItemSelected(String id) {
+        }
+
+        @Override
+        public IComicDataSourceListWithFavourites getComicData()
+        {
+            return null;
         }
     };
 
@@ -73,7 +85,7 @@ public class ComicListFragment extends ListFragment {
 
         myActivity = (ComicListActivity)getActivity();
 
-        setListAdapter(new ComicListAdapter(myActivity, myActivity.getComicData()));
+        setListAdapter(new ComicListAdapter(myActivity, myActivity));
     }
 
     @Override

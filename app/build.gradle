@@ -35,5 +35,6 @@ dependencies {
     )
     testCompile 'junit:junit:4.12'
     provided 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.andraskindler.quickscroll:quickscroll:0.9.8'
 }
 

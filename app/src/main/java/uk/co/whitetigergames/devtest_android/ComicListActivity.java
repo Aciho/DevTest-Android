@@ -1,5 +1,6 @@
 package uk.co.whitetigergames.devtest_android;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -7,14 +8,8 @@ import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-
 import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSource;
 import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSourceListWithFavourites;
-import uk.co.whitetigergames.devtest_android.interfaces.IRawComicDataSource;
 
 /**
  * An activity representing a list of Comics. This activity
@@ -41,12 +36,14 @@ public class ComicListActivity extends FragmentActivity
      */
     private boolean mTwoPane;
 
-    private IComicDataSourceListWithFavourites cachedData = null;
+    private DataTaskFragment mTaskFragment = null;
+    private static final String TAG_TASK_FRAGMENT = "comic_task_fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comic_list);
+
 
         if (findViewById(R.id.comic_detail_container) != null) {
             // The detail container view will be present only in the
@@ -62,7 +59,15 @@ public class ComicListActivity extends FragmentActivity
                     .setActivateOnItemClick(true);
         }
 
-        // TODO: If exposing deep links into your app, handle intents here.
+        FragmentManager fm = getFragmentManager();
+        mTaskFragment = (DataTaskFragment) fm.findFragmentByTag(TAG_TASK_FRAGMENT);
+
+        // If the Fragment is non-null, then it is currently being
+        // retained across a configuration change.
+        if (mTaskFragment == null) {
+            mTaskFragment = new DataTaskFragment();
+            fm.beginTransaction().add(mTaskFragment, TAG_TASK_FRAGMENT).commit();
+        }
     }
 
     /**
@@ -75,7 +80,7 @@ public class ComicListActivity extends FragmentActivity
         Log.d("Item Selected", position);
         ObjectMapper mapper = new ObjectMapper();
         String json = "";
-        IComicDataSource data = getComicData(Integer.parseInt(position));
+        IComicDataSource data = getComicData().getData(Integer.parseInt(position));
 
         try
         {
@@ -114,27 +119,19 @@ public class ComicListActivity extends FragmentActivity
         }
     }
 
-    public IComicDataSource getComicData(int position)
-    {
-        return getComicData().getData(position);
-    }
-
+    @Override
     public IComicDataSourceListWithFavourites getComicData()
     {
-        if (cachedData == null)
-        {
-            InputStream inputStream = getResources().openRawResource(R.raw.titles);
-            Reader reader = new InputStreamReader(inputStream);
-            IRawComicDataSource dataSource = null;
-            try
-            {
-                dataSource = new CSVParser(reader);
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-            cachedData = new ComicDataList(dataSource);
-        }
-        return cachedData;
+        return mTaskFragment;
     }
+
+//    public IComicDataSource getComicData(int position)
+//    {
+//        return getComicData().getData(position);
+//    }
+//
+//    public IComicDataSourceListWithFavourites getComicData()
+//    {
+//        return mTaskFragment;
+//    }
 }

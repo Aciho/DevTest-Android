@@ -23,7 +23,7 @@ public class ComicDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comic_detail);
 
         // Show the Up button in the action bar.
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity

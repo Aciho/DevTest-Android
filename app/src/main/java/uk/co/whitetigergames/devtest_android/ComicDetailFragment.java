@@ -90,7 +90,7 @@ public class ComicDetailFragment extends Fragment
             ((TextView) rootView.findViewById(R.id.description_text)).setText(mItem.getDescription());
             ((TextView) rootView.findViewById(R.id.publisher_text)).setText(mItem.getPublisher());
             ((TextView) rootView.findViewById(R.id.year_text)).setText(mItem.getDate());
-            ((TextView) rootView.findViewById(R.id.num_others_text)).setText(mOtherItems + R.string.others_by_this_publisher);
+            ((TextView) rootView.findViewById(R.id.num_others_text)).setText(mOtherItems + " " + getResources().getString(R.string.others_by_this_publisher));
         }
 
         return rootView;

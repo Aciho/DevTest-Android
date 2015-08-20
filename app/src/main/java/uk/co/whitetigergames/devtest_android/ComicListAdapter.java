@@ -1,13 +1,12 @@
 package uk.co.whitetigergames.devtest_android;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.view.LayoutInflater;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSource;
@@ -19,25 +18,33 @@ import uk.co.whitetigergames.devtest_android.interfaces.IComicDataSourceListWith
 public class ComicListAdapter extends BaseAdapter
 {
     Context context;
-    IComicDataSourceListWithFavourites dataSource;
+    ComicListFragment.ComicListCallbacks dataSource;
 
     public ComicListAdapter(Context context,
-                            IComicDataSourceListWithFavourites dataSource)
+                            ComicListFragment.ComicListCallbacks comicCallbacks)
     {
         this.context = context;
-        this.dataSource = dataSource;
+        this.dataSource = comicCallbacks;
     }
 
     @Override
     public int getCount()
     {
-        return dataSource.getCount();
+        if (dataSource.getComicData() != null)
+        {
+            return dataSource.getComicData().getCount();
+        }
+        return 0;
     }
 
     @Override
     public IComicDataSource getItem(int position)
     {
-        return dataSource.getData(position);
+        if (dataSource.getComicData() != null)
+        {
+            return dataSource.getComicData().getData(position);
+        }
+        return null;
     }
 
     @Override
@@ -66,24 +73,26 @@ public class ComicListAdapter extends BaseAdapter
         });
 
         final IComicDataSource data = getItem(position);
-
-        TextView titleText = (TextView) rootView.findViewById(R.id.comic_name);
-        titleText.setText(data.getName());
-
-        TextView subText = (TextView) rootView.findViewById(R.id.comic_subtitle);
-        subText.setText(data.getSubtitle());
-
-        CompoundButton checkBox = (CompoundButton)rootView.findViewById(R.id.comic_checkbox);
-
-        checkBox.setChecked(dataSource.isFavourite(position));
-        checkBox.setOnClickListener(new View.OnClickListener()
+        if (data != null)
         {
-            @Override
-            public void onClick(View v)
+            TextView titleText = (TextView) rootView.findViewById(R.id.comic_name);
+            titleText.setText(data.getName());
+
+            TextView subText = (TextView) rootView.findViewById(R.id.comic_subtitle);
+            subText.setText(data.getSubtitle());
+
+            CompoundButton checkBox = (CompoundButton)rootView.findViewById(R.id.comic_checkbox);
+
+            checkBox.setChecked(dataSource.getComicData().isFavourite(position));
+            checkBox.setOnClickListener(new View.OnClickListener()
             {
-                dataSource.toggleFavourite(data.getID());
-            }
-        });
+                @Override
+                public void onClick(View v)
+                {
+                    dataSource.getComicData().toggleFavourite(data.getID());
+                }
+            });
+        }
 
         return rootView;
     }
